@@ -12,10 +12,13 @@ const ExpanseForm = () => {
 	});
 	const titleChange = (event) => {
 		// setEnteredTitle(event.target.value);
-		setUserInput({
-			...userInput,
-			enteredTitle:event.target.value
-		})
+		// setUserInput({
+		// 	...userInput,
+		// 	enteredTitle:event.target.value
+		// })
+		setUserInput((prevState)=>{
+			return {...userInput,setUserInput:event.target.value};
+		});
 	};
 	const amountChange = () => {
 		// setEnteredAmount(event.target.value);
