@@ -1,17 +1,35 @@
 import React, { useState } from "react";
 import "./ExpenseForm.css";
 const ExpanseForm = () => {
-	const [enteredTitle, setEnteredTitle] = useState("");
-	const [enteredAmount, setEnteredAmount] = useState("");
-	const [enteredDate, setEnteredDate] = useState("");
+	// const [enteredTitle, setEnteredTitle] = useState("");
+	// const [enteredAmount, setEnteredAmount] = useState("");
+	// const [enteredDate, setEnteredDate] = useState("");
+	//Use one state insted passing object
+	const [userInput,setUserInput]=useState({
+		enteredTitle:'',
+		enteredAmount:'',
+		enteredDate:''
+	});
 	const titleChange = (event) => {
-		setEnteredTitle(event.target.value);
+		// setEnteredTitle(event.target.value);
+		setUserInput({
+			...userInput,
+			enteredTitle:event.target.value
+		})
 	};
 	const amountChange = () => {
-		setEnteredAmount(event.target.value);
+		// setEnteredAmount(event.target.value);
+		setUserInput({
+			...userInput,
+			enteredAmount:event.target.value
+		})
 	};
 	const dateChange = () => {
-		setEnteredDate(event.target.value);
+		// setEnteredDate(event.target.value);
+		setUserInput({
+			...userInput,
+			enteredDate:event.target.value
+		})
 	};
 	return (
 		<form>
