@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./ExpenseForm.css";
-const ExpanseForm = () => {
+const ExpanseForm = (props) => {
 	const [enteredTitle, setEnteredTitle] = useState("");
 	const [enteredAmount, setEnteredAmount] = useState("");
 	const [enteredDate, setEnteredDate] = useState("");
@@ -41,10 +41,10 @@ const ExpanseForm = () => {
 			amount: enteredAmount,
 			date: new Date(enteredDate),
 		};
+		props.onSaveExpenseData(expenseData);
 		setEnteredTitle('');
 		setEnteredAmount('');
 		setEnteredDate('');
-		console.log(expenseData);
 	};
 	return (
 		<form onSubmit={submitForm}>
