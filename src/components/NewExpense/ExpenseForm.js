@@ -1,41 +1,51 @@
 import React, { useState } from "react";
 import "./ExpenseForm.css";
 const ExpanseForm = () => {
-	// const [enteredTitle, setEnteredTitle] = useState("");
-	// const [enteredAmount, setEnteredAmount] = useState("");
-	// const [enteredDate, setEnteredDate] = useState("");
+	const [enteredTitle, setEnteredTitle] = useState("");
+	const [enteredAmount, setEnteredAmount] = useState("");
+	const [enteredDate, setEnteredDate] = useState("");
 	//Use one state insted passing object
-	const [userInput,setUserInput]=useState({
-		enteredTitle:'',
-		enteredAmount:'',
-		enteredDate:''
-	});
+	// const [userInput,setUserInput]=useState({
+	// 	enteredTitle:'',
+	// 	enteredAmount:'',
+	// 	enteredDate:''
+	// });
 	const titleChange = (event) => {
-		// setEnteredTitle(event.target.value);
+		setEnteredTitle(event.target.value);
 		// setUserInput({
 		// 	...userInput,
 		// 	enteredTitle:event.target.value
 		// })
-		setUserInput((prevState)=>{
-			return {...userInput,setUserInput:event.target.value};
-		});
+		// setUserInput((prevState)=>{
+		// 	return {...userInput,setUserInput:event.target.value};
+		// });
 	};
-	const amountChange = () => {
-		// setEnteredAmount(event.target.value);
-		setUserInput({
-			...userInput,
-			enteredAmount:event.target.value
-		})
+	const amountChange = (event) => {
+		setEnteredAmount(event.target.value);
+		// setUserInput({
+		// 	...userInput,
+		// 	enteredAmount:event.target.value
+		// })
 	};
-	const dateChange = () => {
-		// setEnteredDate(event.target.value);
-		setUserInput({
-			...userInput,
-			enteredDate:event.target.value
-		})
+	const dateChange = (event) => {
+		setEnteredDate(event.target.value);
+		// setUserInput({
+		// 	...userInput,
+		// 	enteredDate:event.target.value
+		// })
+	};
+	const submitForm =(event)=>{
+		event.preventDefault();//To prevent default method that not to reload page again
+		const expenseData={
+			title:enteredTitle,
+			amount:enteredAmount,
+			date:new Date(enteredDate)
+
+		};
+		console.log(expenseData);
 	};
 	return (
-		<form>
+		<form onSubmit={submitForm}>
 			<div className="new-expense__controls">
 				<div className="new-expense__control">
 					<label>Title</label>
