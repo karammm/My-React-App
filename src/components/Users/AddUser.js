@@ -7,6 +7,11 @@ const AddUser = (props) => {
 	const [enteredAge, setEnteredAge] = useState("");
 	const addUser = (event) => {
 		event.preventDefault();
+		if(enteredUserName.trim().length===0 ||enteredAge.trim().length===0){
+			return;
+		}else if(+enteredAge<1){
+			return;
+		}
 		console.log(enteredUserName, enteredAge);
 		setEnteredAge('');
 		setEnteredUserName('');
