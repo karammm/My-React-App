@@ -37,7 +37,7 @@ const AddUser = (props) => {
 		setError(null);
 	}
 	return (
-		<Wrapper>
+		<>
 			{/* If error is a thing and if it is thn error else using and and model if error would be undefinfed thn nothing will be rendered */}
 			{error && <ErrorModel title={error.title} message={error.message} onConfirm={errorHandler}/>}
 			<Card className={classes.input}>
@@ -62,7 +62,7 @@ const AddUser = (props) => {
 					<Button type="submit">Add User</Button>
 				</form>
 			</Card>
-		</Wrapper>
+		</>
 	);
 };
 export default AddUser;
