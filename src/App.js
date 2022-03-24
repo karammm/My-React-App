@@ -5,11 +5,10 @@ import Home from "./components/Home/Home";
 import MainHeader from "./components/MainHeader/MainHeader";
 
 function App() {
-
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	useEffect(() => {
 		const loginInformation = localStorage.getItem("login");
-		if (loginInformation === '1') {
+		if (loginInformation === "1") {
 			setIsLoggedIn(true);
 		}
 	}, []);
@@ -17,7 +16,7 @@ function App() {
 	const loginHandler = (email, password) => {
 		// We should of course check email and password
 		// But it's just a dummy/ demo anyways
-		localStorage.setItem("login", '1');
+		localStorage.setItem("login", "1");
 		setIsLoggedIn(true);
 	};
 
