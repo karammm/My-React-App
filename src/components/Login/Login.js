@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 
 import Card from "../UI/Card/Card";
 import classes from "./Login.module.css";
 import Button from "../UI/Button/Button";
 import { useReducer } from "react";
+import AuthContext from "../Store/auth-context";
 
 //this is outside of the component function
 //We did so bcz inside this reducer function
@@ -31,7 +32,8 @@ const passwordReducer = (prevState, action) => {
 	return { value: "", isValid: false };
 };
 
-const Login = (props) => {
+const Login = (pops) => {
+	const authCtx = useContext(AuthContext);
 	// const [enteredEmail, setEnteredEmail] = useState("");
 	// const [emailIsValid, setEmailIsValid] = useState();
 	// const [enteredPassword, setEnteredPassword] = useState("");
@@ -83,7 +85,7 @@ const Login = (props) => {
 
 	const submitHandler = (event) => {
 		event.preventDefault();
-		props.onLogin(emailState.value, passwordState.value);
+		authCtx.onLogin(emailState.value, passwordState.value);
 	};
 
 	return (
