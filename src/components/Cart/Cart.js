@@ -2,7 +2,7 @@ import Model from "../UI/Model";
 import classes from "./Cart.module.css";
 const Cart = (props) => {
 	const cartItems = (
-		<ul className={classes["cart-item"]}>
+		<ul className={classes["cart-items"]}>
 			{[{ id: "c1", name: "karam", amount: 2, price: 10.0 }].map((item) => (
 				<li>{item.name}</li>
 			))}
