@@ -1,3 +1,4 @@
+import Model from "../UI/Model";
 import classes from "./Cart.module.css";
 const Cart = (props) => {
 	const cartItems = (
@@ -8,8 +9,8 @@ const Cart = (props) => {
 		</ul>
 	);
 	return (
-		<div>
-			{cartitems}
+		<Model>
+			{cartItems}
 			<div className={classes.total}>
 				<span>Total Amount</span>
 				<span>35.63</span>
@@ -18,7 +19,7 @@ const Cart = (props) => {
 				<button className={classes["button--alt"]}>Close</button>
 				<button className={classes.order}>Order</button>
 			</div>
-		</div>
+		</Model>
 	);
 };
 export default Cart;
