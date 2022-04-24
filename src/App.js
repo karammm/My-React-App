@@ -10,28 +10,41 @@ function App() {
 	async function fetchMovieHandler() {
 		setIsLoading(true);
 		setError(null);
-		try{
+		try {
 			//promise is an object which will eventually yield some data insted of immediately doing that bcz ofcourse
-		//sending a http request is an asyncronous task it dosn't finish immediately it can take a couple of seconds
-		//and therefore
-		const response = await fetch("https://swapi.dev/api/films/");
-		if(!response.ok){
-			throw new Error('Something Went Wrong!');
-		}
-		const data = await response.json();
-		const transformedMovies = data.results.map((movieData) => {
-			return {
-				id: movieData.episode_id,
-				title: movieData.title,
-				openingText: movieData.opening_crawl,
-				releaseDate: movieData.release_date,
-			};
-		});
-		setMovies(transformedMovies);
-		}catch(error){
+			//sending a http request is an asyncronous task it dosn't finish immediately it can take a couple of seconds
+			//and therefore
+			const response = await fetch("https://swapi.dev/api/films/");
+			if (!response.ok) {
+				throw new Error("Something Went Wrong!");
+			}
+			const data = await response.json();
+			const transformedMovies = data.results.map((movieData) => {
+				return {
+					id: movieData.episode_id,
+					title: movieData.title,
+					openingText: movieData.opening_crawl,
+					releaseDate: movieData.release_date,
+				};
+			});
+			setMovies(transformedMovies);
+		} catch (error) {
 			setError(error.message);
 		}
 		setIsLoading(false);
+	}
+	let content = <p>Found no movies.</p>;
+
+	if (movies.length > 0) {
+		content = <MoviesList movies={movies} />;
+	}
+
+	if (error) {
+		content = <p>{error}</p>;
+	}
+
+	if (isLoading) {
+		content = <p>Loading...</p>;
 	}
 
 	return (
@@ -40,10 +53,7 @@ function App() {
 				<button onClick={fetchMovieHandler}>Fetch Movies</button>
 			</section>
 			<section>
-				{!isLoading && movies.length > 0 && <MoviesList movies={movies} />}
-				{!isLoading && movies.length === 0 && !error && <p>No Movies to load</p>}
-				{!isLoading && error && <p>{error}</p>}
-				{isLoading && <p>Loading...</p>}
+				{content}
 			</section>
 		</React.Fragment>
 	);
