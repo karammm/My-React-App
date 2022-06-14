@@ -3,19 +3,15 @@ import { useEffect, useState } from "react";
 const SimpleInput = (props) => {
   const [enteredName, setEnteredName] = useState("");
   const [enteredNameTouched, setEnteredNameTouched] = useState(false);
-  const [formIsValid,setFormISValid]=useState(false);
 
   //these two lines of code works together
   const enteredNameIsvalid = enteredName.trim() !== '';
   const nameInputIsInValid = !enteredNameIsvalid && enteredNameTouched;
 
-  useEffect(()=>{
-    if(enteredNameIsvalid){
-      setFormISValid(true);
-    }else{
-      setFormISValid(false);
-    }
-  },[enteredNameIsvalid])
+  let formIsValid=false;
+  if(enteredNameIsvalid){
+    formIsValid=true;
+  }
 
   const nameInputChangeHandler = event => {
     setEnteredName(event.target.value);
