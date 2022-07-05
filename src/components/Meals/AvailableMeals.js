@@ -6,11 +6,15 @@ import { useEffect, useState } from "react";
 const AvailableMeals = () => {
 	const [meals,setMeals] = useState([]);
 	const [isLoading,setISLoading]= useState(true);
+	const [httpError,setHttpError]= useState(null);
 	
 	useEffect(() => {
 		//it will now not return a promis
 		const featchMeals = async () => {
-			const response = await fetch('https://react-app-d7127-default-rtdb.firebaseio.com	/meals.json');
+			const response = await fetch('https://react-app-d7127-default-rtdb.firebaseio.com/meals.json');
+			if(!response.ok){
+				throw new Error("Something went wrong");
+			}
 			//this is a json we need to transform in an array
 			const responseData = await response.json();
 
@@ -26,12 +30,22 @@ const AvailableMeals = () => {
 			setMeals(loadedMeals); 
 			setISLoading(false);
 		};
-		featchMeals();
+
+		featchMeals().catch((error)=>{
+			setISLoading(false);
+			setHttpError(error.message);
+		});
 	}, []);
 
 	if(isLoading){
 		return <section className={classes.mealsLoading}>
 			<p>Loading...</p>
+		</section>
+	}
+
+	if(httpError){
+		return <section className={classes.MealsError}>
+			<p>{httpError}</p>
 		</section>
 	}
 
