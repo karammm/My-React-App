@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 const AvailableMeals = () => {
 	const [meals,setMeals] = useState([]);
+	const [isLoading,setISLoading]= useState(true);
 	
 	useEffect(() => {
 		//it will now not return a promis
@@ -23,9 +24,17 @@ const AvailableMeals = () => {
 				})
 			}
 			setMeals(loadedMeals); 
+			setISLoading(false);
 		};
 		featchMeals();
 	}, []);
+
+	if(isLoading){
+		return <section className={classes.mealsLoading}>
+			<p>Loading...</p>
+		</section>
+	}
+
 	const mealsList = meals.map((meal) => (
 		<MealItem
 			key={meal.id}
