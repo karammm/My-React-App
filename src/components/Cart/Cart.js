@@ -1,9 +1,11 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import CartContext from "../../store/cart-context";
 import Model from "../UI/Model";
 import classes from "./Cart.module.css";
 import CartItem from "./CartItem";
+import Checkout from "./Checkout";
 const Cart = (props) => {
+	const [isCheckout, setIsCheckout] = useState(false);
 	const cartCtx = useContext(CartContext);
 
 	const totalAmount = `₹${cartCtx.totalAmount.toFixed(2)}`;
@@ -18,6 +20,10 @@ const Cart = (props) => {
 		cartCtx.addItem(item);
 	};
 
+	const orderHandler = () => {
+		setIsCheckout(true);
+	};
+
 	const cartItems = (
 		<ul className={classes["cart-items"]}>
 			{cartCtx.items.map((item) => (
@@ -28,11 +34,18 @@ const Cart = (props) => {
 					price={item.price}
 					onRemove={cartItemRemoveHandler.bind(null, item.id)}
 					onAdd={cartItemAddHandler.bind(null, item)}
-					//bind preconfigures a fn for future execution ans allows you to preconfigure the argument
+				//bind preconfigures a fn for future execution ans allows you to preconfigure the argument
 				/>
 			))}
 		</ul>
 	);
+
+	const modelActions = <div className={classes.actions}>
+		<button className={classes["button--alt"]} onClick={props.onClose}>
+			Close
+		</button>
+		{hasItems && <button className={classes.order} onClick={orderHandler} >Order</button>}
+	</div>;
 	return (
 		<Model onClose={props.onClose}>
 			{cartItems}
@@ -40,12 +53,9 @@ const Cart = (props) => {
 				<span>Total Amount</span>
 				<span>{totalAmount}</span>
 			</div>
-			<div className={classes.actions}>
-				<button className={classes["button--alt"]} onClick={props.onClose}>
-					Close
-				</button>
-				{hasItems && <button className={classes.order}>Order</button>}
-			</div>
+			{isCheckout && <Checkout onCancel={props.onClose} />}
+			{!isCheckout && modelActions}
+
 		</Model>
 	);
 };
