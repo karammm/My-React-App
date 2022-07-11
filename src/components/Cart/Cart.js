@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import CartContext from "../../store/cart-context";
 import Model from "../UI/Model";
 import classes from "./Cart.module.css";
@@ -6,6 +6,9 @@ import CartItem from "./CartItem";
 import Checkout from "./Checkout";
 const Cart = (props) => {
 	const [isCheckout, setIsCheckout] = useState(false);
+	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [didSubmit, setDidSubmitState] = useState(false);
+
 	const cartCtx = useContext(CartContext);
 
 	const totalAmount = `₹${cartCtx.totalAmount.toFixed(2)}`;
@@ -24,14 +27,18 @@ const Cart = (props) => {
 		setIsCheckout(true);
 	};
 
-	const submitHandler = (userData) =>{
-		fetch('https://react-app-d7127-default-rtdb.firebaseio.com/orders.json',{
-			method:'POST',
+	const submitHandler = async (userData) => {
+		setIsSubmitting(true);
+		await fetch('https://react-app-d7127-default-rtdb.firebaseio.com/orders.json', {
+			method: 'POST',
 			body: JSON.stringify({
 				user: userData,
 				orderedItem: cartCtx.items
 			})
 		});
+		setIsSubmitting(false);
+		setDidSubmitState(true);
+		cartCtx.clearCart();
 	};
 
 	const cartItems = (
@@ -56,16 +63,30 @@ const Cart = (props) => {
 		</button>
 		{hasItems && <button className={classes.order} onClick={orderHandler} >Order</button>}
 	</div>;
+
+	const cartModelContent = <React.Fragment>
+		{cartItems}
+		<div className={classes.total}>
+			<span>Total Amount</span>
+			<span>{totalAmount}</span>
+		</div>
+		{isCheckout && <Checkout onConfirm={submitHandler} onCancel={props.onClose} />}
+		{!isCheckout && modelActions}
+	</React.Fragment>
+
+	const isSubmittingModelContent = <p>Sending order data...</p>
+	const didSubmitModelContent = <React.Fragment>
+		<p>Successfully sent order!!!</p>
+		<div className={classes.actions}>
+			<button className={classes.button} onClick={props.onClose}>
+				Close
+			</button>
+		</div></React.Fragment>
 	return (
 		<Model onClose={props.onClose}>
-			{cartItems}
-			<div className={classes.total}>
-				<span>Total Amount</span>
-				<span>{totalAmount}</span>
-			</div>
-			{isCheckout && <Checkout onConfirm={submitHandler} onCancel={props.onClose} />}
-			{!isCheckout && modelActions}
-
+			{!isSubmitting && !didSubmit && cartModelContent}
+			{isSubmitting && isSubmittingModelContent}
+			{!isSubmitting && didSubmit && didSubmitModelContent}
 		</Model>
 	);
 };
